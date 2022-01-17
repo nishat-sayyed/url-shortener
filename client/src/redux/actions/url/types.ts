@@ -1,0 +1,12 @@
+export const GET_ALL_URL = 'GET_ALL_URL';
+export const ADD_URL = 'ADD_URL';
+export const DELETE_URL = 'DELETE_URL';
+export const COMPLETE_URL = 'COMPLETE_URL';
+
+export const GET_ALL_URLS_SUCCESS = 'GET_ALL_URLS_SUCCESS';
+export const ADD_URL_SUCCESS = 'ADD_URL_SUCCESS';
+export const DELETE_URL_SUCCESS = 'DELETE_URL_SUCCESS';
+export const COMPLETE_URL_SUCCESS = 'COMPLETE_URL_SUCCESS';
+
+export const REQUEST_FAILURE = 'REQUEST_FAILURE';
+export const CLEAR_URLS = 'CLEAR_URLS';
