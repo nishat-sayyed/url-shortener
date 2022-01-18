@@ -65,7 +65,7 @@ const header = [
   { id: 'original', label: 'Url', minWidth: 320 },
   { id: 'tiny', label: 'Tiny', minWidth: 100 },
   { id: 'custom', label: 'Custom?', minWidth: 100 },
-  { id: 'createdOn', label: 'Created On', minWidth: 150 },
+  { id: 'createdOn', label: 'Created On', minWidth: 150 }
 ];
 
 const Demo = () => {
@@ -100,7 +100,7 @@ const Demo = () => {
     if (original.trim()) {
       dispatch(urlActions.addUrl({ original, custom, code }));
       setOriginal('');
-      setCode('')
+      setCode('');
     }
   };
 
@@ -130,16 +130,16 @@ const Demo = () => {
                 variant="outlined"
                 style={{ marginBottom: '1rem' }}
                 value={original}
-                name='original'
-                placeholder='Long URL...'
+                name="original"
+                placeholder="Long URL..."
                 onChange={onChangeHandler}
               />
               <TextField
                 variant="outlined"
                 style={{ marginBottom: '1rem' }}
                 value={code}
-                name='code'
-                placeholder='Custome path (optional)'
+                name="code"
+                placeholder="Custome path (optional)"
                 onChange={onChangeHandler}
               />
               <AddButton />
@@ -150,7 +150,7 @@ const Demo = () => {
             header={header}
             data={urlState.urls}
             stickyHeader={true}
-            placeHolder="Nothing to do"
+            placeHolder="No items found"
             headerStyle={{ background: 'black' }}
             rowStyle={{ color: 'black', fontSize: '1.5rem' }}
             onDeleteUrl={(e, urlId) => onDeleteUrlHandler(e)(urlId)}

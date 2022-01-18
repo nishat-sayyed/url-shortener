@@ -15,13 +15,13 @@ export class UrlService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  private responseOject = (url: UrlEntity, sanitize: boolean = true): UrlSO => {
+  private responseOject = (url: UrlEntity): UrlSO => {
     return {
       ...url,
       sanitizedLongUrl: url.original.includes('http')
-      ? url.original
-      : `https://${url.original}`,
-      author: sanitize ? url.author.sanitizeObject() : null,
+        ? url.original
+        : `https://${url.original}`,
+      author: url.author ? url.author.sanitizeObject() : null,
     };
   };
 
@@ -39,7 +39,7 @@ export class UrlService {
       code = generate();
     }
     return code;
-  }
+  };
 
   getAllUrls = async (userId: string): Promise<UrlSO[]> => {
     const user = await this.userRepository.findOne({ where: { id: userId } });
@@ -58,22 +58,23 @@ export class UrlService {
   getUrlByCode = async (code: string): Promise<UrlSO> => {
     const url = await this.urlRepository.findOne(
       { code },
+      { relations: ['author'] },
     );
     if (!url) throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
-    return this.responseOject(url, false);
-  }
 
-  createUrl = async (
-    userId: string,
-    data: UrlDTO
-  ): Promise<UrlSO> => {
+    return this.responseOject(url);
+  };
+
+  createUrl = async (userId: string, data: UrlDTO): Promise<UrlSO> => {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     const code = this.getCode(data);
-    const url = await this.urlRepository.findOne(
-      { code },
-    );
+    const url = await this.urlRepository.findOne({ code });
 
-    if (url) throw new HttpException('Code already exists. Please try again.', HttpStatus.CONFLICT);
+    if (url)
+      throw new HttpException(
+        'Code already exists. Please try again.',
+        HttpStatus.CONFLICT,
+      );
 
     const newUrl = this.urlRepository.create({
       original: data.original,

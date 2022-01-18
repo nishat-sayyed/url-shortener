@@ -21,7 +21,7 @@ export class UrlEntity {
   @Column({
     type: 'text',
     nullable: true,
-    unique: true
+    unique: true,
   })
   code: string;
 
