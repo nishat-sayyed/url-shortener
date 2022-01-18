@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import Home from './pages/Home';
 import Demo from './pages/Demo';
-import LinkViewer from './pages/LinkViewer';
 import Navbar from './containers/Navbar';
 
 import * as routes from './routes';
-import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 import SnackBar from './components/snackbar/SnackBar';
 import Login from './pages/Login';
@@ -45,7 +44,6 @@ function App() {
               path={routes.APP}
               component={Demo}
             />
-            <Route path="/:code" component={LinkViewer} />
           </Switch>
         ) : (
           <div
