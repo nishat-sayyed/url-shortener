@@ -25,4 +25,8 @@ export class AnalyticsService {
     });
     await this.pageViewsRepository.save(pageView);
   }
+
+  getPageViewData() {
+    return this.pageViewsRepository.find();
+  }
 }

@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { UrlEntity } from './url.entity';
 import { UrlDTO, UrlSO } from './url.dto';
 import { UserEntity } from '../user/user.entity';
+import { AnalyticsService } from 'src/analytics/analytics.service';
+import { PageViewSO } from 'src/analytics/analytics.dto';
 
 @Injectable()
 export class UrlService {
@@ -13,14 +15,19 @@ export class UrlService {
     private urlRepository: Repository<UrlEntity>,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    private readonly analyticsService: AnalyticsService,
   ) {}
 
-  private responseOject = (url: UrlEntity): UrlSO => {
+  private responseOject = (
+    url: UrlEntity,
+    pageVisits?: PageViewSO[],
+  ): UrlSO => {
     return {
       ...url,
       sanitizedLongUrl: url.original.includes('http')
         ? url.original
         : `https://${url.original}`,
+      pageVisits,
       author: url.author ? url.author.sanitizeObject() : null,
     };
   };
@@ -49,9 +56,13 @@ export class UrlService {
       order: { createdOn: 'DESC' },
       relations: ['author'],
     });
+    const pageViews = await this.analyticsService.getPageViewData();
     return urls.map(url => {
       this.verifyOwnership(url, userId);
-      return this.responseOject(url);
+      return this.responseOject(
+        url,
+        pageViews.filter(pageView => pageView.path === `/${url.code}`),
+      );
     });
   };
 

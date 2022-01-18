@@ -19,7 +19,7 @@ export class PageViewEntity {
 
   @Column({
     type: 'text',
-    nullable: true,
+    nullable: false,
   })
   ip_address: string;
 

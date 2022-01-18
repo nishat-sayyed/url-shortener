@@ -1,4 +1,5 @@
 import { IsBoolean, IsOptional, IsString, IsUrl } from 'class-validator';
+import { PageViewSO } from 'src/analytics/analytics.dto';
 import { UserSO } from '../user/user.dto';
 
 export class UrlDTO {
@@ -15,9 +16,10 @@ export class UrlDTO {
 
 export type UrlSO = {
   id: string;
-  sanitizedLongUrl: string;
-  createdOn: Date;
   custom: boolean;
+  sanitizedLongUrl: string;
   author: UserSO;
+  pageVisits?: PageViewSO[];
+  createdOn: Date;
   token?: string;
 };
