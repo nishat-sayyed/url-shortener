@@ -11,7 +11,7 @@ const Home = () => {
       const { data } = await axios.get<any, AxiosResponse<Url>>(
         '/api/url/' + code
       );
-      window.location.replace(data.sanitizedLongUrl);
+      // window.location.replace(data.sanitizedLongUrl);
     })();
   }, []);
 

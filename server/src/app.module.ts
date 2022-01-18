@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -10,9 +10,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { ValidationPipe } from './shared/validation.pipe';
+import { AnalyticsModule } from './analytics/analytics.module';
+import { AnalyticsMiddleware } from './analytics/analytics.middleware';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UrlModule, UserModule],
+  imports: [TypeOrmModule.forRoot(), UrlModule, UserModule, AnalyticsModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -26,4 +28,11 @@ import { ValidationPipe } from './shared/validation.pipe';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AnalyticsMiddleware)
+      .exclude('start')
+      .forRoutes(AppController);
+  }
+}

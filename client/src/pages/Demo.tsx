@@ -123,7 +123,7 @@ const Demo = () => {
             {authState.currentUser?.email &&
               `Hi, ${authState.currentUser?.email}`}
           </div>
-          <div className={classes.title}>Your Url List</div>
+          <div className={classes.title}>Your URL List</div>
           <div className={classes.formWrapper}>
             <form className={classes.form} onSubmit={onAddUrlHandler}>
               <TextField

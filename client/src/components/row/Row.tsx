@@ -27,7 +27,7 @@ const Row: FC<{
   ) => void;
 }> = ({ data, rowStyle = {}, onDeleteUrl }) => {
   const { sanitizedLongUrl, custom, createdOn, code } = data;
-  const tinyUrl = `${window.location.host}/${code}`;
+  const tinyUrl = `http://localhost:5500/${code}`;
   const classes = useStyles();
 
   return (
@@ -48,9 +48,9 @@ const Row: FC<{
         </div>
       </TableCell>
       <TableCell>
-        <Link to={code} rel="noopener">
+        <a href={tinyUrl} target="_blank">
           {tinyUrl}
-        </Link>
+        </a>
       </TableCell>
       <TableCell>{custom ? 'Yes' : 'No'}</TableCell>
       <TableCell>{new Date(createdOn).toLocaleDateString()}</TableCell>

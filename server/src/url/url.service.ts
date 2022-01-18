@@ -56,10 +56,7 @@ export class UrlService {
   };
 
   getUrlByCode = async (code: string): Promise<UrlSO> => {
-    const url = await this.urlRepository.findOne(
-      { code },
-      { relations: ['author'] },
-    );
+    const url = await this.urlRepository.findOne({ code });
     if (!url) throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
 
     return this.responseOject(url);

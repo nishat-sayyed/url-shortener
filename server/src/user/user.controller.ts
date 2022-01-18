@@ -3,7 +3,9 @@ import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
 import { AuthGuard } from '../shared/auth.guard';
 
-@Controller()
+@Controller({
+  path: 'api',
+})
 export class UserController {
   constructor(private userService: UserService) {}
 
