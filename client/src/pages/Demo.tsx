@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, makeStyles, Theme } from '@material-ui/core';
+import { TextField, makeStyles, Theme, Modal } from '@material-ui/core';
 import UrlsTable from '../containers/UrlsTable';
 import AddButton from '../components/add-button/AddButton';
 
-import { IStore } from '../types';
+import { IStore, PageVisit } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as urlActions from '../redux/actions/url/actions';
+import PageVisitsModal from '../containers/PageVisitsModal';
 
 const useStyles = makeStyles((theme: Theme) => ({
   title: {
@@ -62,16 +63,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const header = [
-  { id: 'original', label: 'Url', minWidth: 320 },
+  { id: 'original', label: 'Url', minWidth: 100 },
   { id: 'tiny', label: 'Tiny', minWidth: 100 },
-  { id: 'custom', label: 'Custom?', minWidth: 100 },
-  { id: 'createdOn', label: 'Created On', minWidth: 150 }
+  { id: 'views', label: 'Views', minWidth: 100 },
+  { id: 'createdOn', label: 'Created On', minWidth: 100 }
 ];
 
 const Demo = () => {
   const [original, setOriginal] = useState<string>('');
   const [custom, setCustom] = useState<boolean>(false);
   const [code, setCode] = useState<string>('');
+  const [pageVisitData, setPageVisitData] = useState<PageVisit[]>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
@@ -114,8 +117,26 @@ const Demo = () => {
     }
   };
 
+  const onViewUrlHandler = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    return (urlId: string) => {
+      const pageVisits = urlState.urls.find(
+        (url) => url.id === urlId
+      )?.pageVisits;
+      setPageVisitData(pageVisits ? pageVisits : []);
+      setOpenModal(true);
+    };
+  };
+
   return (
     <>
+      <PageVisitsModal
+        open={openModal}
+        data={pageVisitData}
+        onClose={() => setOpenModal(false)}
+      />
+
       <div className={classes.demoWrapper}>
         <div style={{ height: '64px' }} />
         <div className={classes.urlListWrapper}>
@@ -123,7 +144,6 @@ const Demo = () => {
             {authState.currentUser?.email &&
               `Hi, ${authState.currentUser?.email}`}
           </div>
-          <div className={classes.title}>Your URL List</div>
           <div className={classes.formWrapper}>
             <form className={classes.form} onSubmit={onAddUrlHandler}>
               <TextField
@@ -154,6 +174,7 @@ const Demo = () => {
             headerStyle={{ background: 'black' }}
             rowStyle={{ color: 'black', fontSize: '1.5rem' }}
             onDeleteUrl={(e, urlId) => onDeleteUrlHandler(e)(urlId)}
+            onViewUrl={(e, urlId) => onViewUrlHandler(e)(urlId)}
           />
         </div>
       </div>

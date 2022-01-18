@@ -34,6 +34,7 @@ const UrlsTable: FC<IUrlTable> = ({
   placeHolder,
   isLoading,
   onDeleteUrl,
+  onViewUrl,
   stickyHeader = true
 }) => {
   const classes = useStyles();
@@ -55,6 +56,7 @@ const UrlsTable: FC<IUrlTable> = ({
                   data={url}
                   rowStyle={rowStyle}
                   onDeleteUrl={(e, id) => onDeleteUrl(e, id)}
+                  onViewUrl={(e, id) => onViewUrl(e, id)}
                 />
               );
             })

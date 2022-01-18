@@ -5,16 +5,25 @@ export type UserCreds = {
   password: string;
 };
 
+export type PageVisit = {
+  city: string;
+  country: string;
+  region: string;
+  ip_address: string;
+  visited_at: Date;
+};
+
 export type Url = {
   original: string;
   sanitizedLongUrl: string;
   createdOn: Date;
+  pageVisits: PageVisit[];
   custom: boolean;
   code: string;
   id: string;
 };
 
-export type UrlDTO = Pick<Url, 'original' | 'custom' | 'code'>
+export type UrlDTO = Pick<Url, 'original' | 'custom' | 'code'>;
 
 export type UrlsTableHeader = {
   id: string;
@@ -78,4 +87,18 @@ export interface IUrlTable {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string
   ) => void;
+  onViewUrl: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) => void;
+}
+
+export interface IPageVisitTable {
+  data: PageVisit[];
+}
+
+export interface IPageVisitModal {
+  data: PageVisit[];
+  open: boolean;
+  onClose: () => void;
 }

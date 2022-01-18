@@ -92,7 +92,7 @@ export class UrlService {
     });
     await this.urlRepository.save(newUrl);
 
-    return this.responseOject(newUrl);
+    return this.responseOject(newUrl, []);
   };
 
   updateUrl = async (
